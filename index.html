@@ -171,8 +171,148 @@
     opacity: 0.85;
   }
 
-  /* Content */
-  .content { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+  /* Content layout */
+  .page-layout {
+    display: flex;
+    align-items: flex-start;
+    max-width: 940px;
+    margin: 0 auto;
+  }
+  .content { flex: 1; min-width: 0; padding: 32px 24px 32px 16px; }
+
+  /* Filter sidebar — desktop */
+  .filter-sidebar {
+    width: 164px;
+    flex-shrink: 0;
+    padding: 28px 12px 28px 20px;
+    position: sticky;
+    top: 49px;
+    max-height: calc(100vh - 49px);
+    overflow-y: auto;
+  }
+  .filter-sidebar-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 10px;
+    padding: 0 4px;
+  }
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    text-align: left;
+    padding: 7px 10px;
+    border: none;
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    color: var(--soft);
+    transition: all 0.15s;
+    margin-bottom: 1px;
+  }
+  .filter-btn::before {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--gold-light);
+    transition: background 0.15s;
+  }
+  .filter-btn[data-filter="all"]::before         { background: var(--gold-light); }
+  .filter-btn[data-filter="tag-medical"]::before   { background: #c05050; }
+  .filter-btn[data-filter="tag-practical"]::before { background: #4a7a4a; }
+  .filter-btn[data-filter="tag-emotional"]::before { background: #9a6a20; }
+  .filter-btn[data-filter="tag-partner"]::before   { background: #4a4a9a; }
+  .filter-btn[data-filter="tag-baby"]::before      { background: #9a4080; }
+  .filter-btn:hover { background: rgba(0,0,0,0.04); color: var(--mid); }
+  .filter-btn.active { background: rgba(0,0,0,0.05); color: var(--deep); font-weight: 500; }
+
+  /* Filtered items */
+  .check-item.filter-hidden { display: none; }
+  .week-group.filter-empty  { display: none; }
+
+  /* Mobile filter trigger */
+  .filter-mobile-trigger {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--soft);
+    background: var(--warm-white);
+    border: 1px solid var(--gold-light);
+    border-radius: 20px;
+    padding: 6px 14px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.2s;
+  }
+  .filter-mobile-trigger:hover { border-color: var(--gold); color: var(--mid); }
+  .filter-mobile-trigger.has-filters {
+    border-color: var(--dusty-rose);
+    color: var(--dusty-rose);
+    background: rgba(212,137,122,0.07);
+  }
+  .filter-mobile-chevron { font-size: 10px; }
+
+  /* Mobile drawer */
+  .filter-drawer-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 299;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .filter-drawer-overlay.open { opacity: 1; pointer-events: all; }
+  .filter-drawer {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--warm-white);
+    border-radius: 16px 16px 0 0;
+    padding: 12px 24px 40px;
+    box-shadow: 0 -4px 32px rgba(0,0,0,0.12);
+    z-index: 300;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  .filter-drawer.open { transform: translateY(0); }
+  .filter-drawer-handle {
+    width: 36px; height: 4px;
+    background: var(--gold-light);
+    border-radius: 2px;
+    margin: 0 auto 18px;
+  }
+  .filter-drawer-inner { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter-drawer-inner .filter-btn {
+    width: auto;
+    border: 1px solid var(--gold-light);
+    border-radius: 20px;
+    padding: 7px 14px;
+  }
+  .filter-drawer-inner .filter-btn.active {
+    border-color: var(--dusty-rose);
+    background: rgba(212,137,122,0.08);
+    color: var(--dusty-rose);
+  }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .filter-sidebar { display: none; }
+    .filter-mobile-trigger { display: flex; }
+    .filter-drawer, .filter-drawer-overlay { display: block; }
+    .content { padding: 24px 16px; }
+  }
 
   .phase { display: none; }
   .phase.active { display: block; }
@@ -336,6 +476,61 @@
   .tag-emotional { background: #fdf0e0; color: #9a6a20; }
   .tag-partner { background: #e8e8fd; color: #4a4a9a; }
   .tag-baby { background: #fce8f4; color: #9a4080; }
+
+  /* Custom item controls */
+  .delete-item-btn {
+    background: none; border: none; cursor: pointer;
+    color: var(--soft); font-size: 18px; line-height: 1;
+    padding: 0 0 0 4px; opacity: 0; transition: opacity 0.15s;
+    align-self: flex-start; margin-top: 0; flex-shrink: 0;
+  }
+  .check-item:hover .delete-item-btn { opacity: 0.5; }
+  .delete-item-btn:hover { opacity: 1 !important; color: var(--terracotta); }
+
+  .add-item-btn {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-family: 'DM Sans', sans-serif;
+    color: var(--soft); background: none;
+    border: 1px dashed var(--gold-light); border-radius: 8px;
+    padding: 8px 14px; cursor: pointer; width: 100%;
+    margin-top: 8px; transition: all 0.2s;
+  }
+  .add-item-btn:hover { color: var(--mid); border-color: var(--gold); }
+
+  .add-item-row {
+    display: flex; gap: 8px; margin-top: 8px; align-items: center;
+  }
+  .add-item-input {
+    flex: 1; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300;
+    padding: 10px 14px; border: 1px solid var(--gold-light);
+    border-radius: 8px; background: var(--warm-white);
+    color: var(--deep); outline: none;
+  }
+  .add-item-input:focus { border-color: var(--dusty-rose); }
+  .add-item-confirm, .add-item-cancel {
+    background: none; border: none; cursor: pointer;
+    font-size: 18px; padding: 4px; line-height: 1; flex-shrink: 0;
+  }
+  .add-item-confirm { color: var(--sage); }
+  .add-item-cancel  { color: var(--soft); }
+  .add-item-meta-row {
+    display: flex; gap: 8px; margin-top: 6px;
+  }
+  .add-item-tag {
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 300;
+    padding: 7px 10px; border: 1px solid var(--gold-light);
+    border-radius: 8px; background: var(--warm-white);
+    color: var(--mid); outline: none; cursor: pointer; flex-shrink: 0;
+  }
+  .add-item-tag:focus { border-color: var(--dusty-rose); }
+  .add-item-note {
+    flex: 1; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 300;
+    padding: 7px 12px; border: 1px solid var(--gold-light);
+    border-radius: 8px; background: var(--warm-white);
+    color: var(--deep); outline: none; font-style: italic;
+  }
+  .add-item-note:focus { border-color: var(--dusty-rose); }
+  .add-item-form { margin-top: 8px; }
 
   /* Confetti-like celebration */
   @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
@@ -757,7 +952,14 @@
   <button class="nav-btn" data-phase="postpartum">Postpartum</button>
 </nav>
 
+<div class="page-layout">
+<aside class="filter-sidebar" id="filterSidebar"></aside>
+
 <div class="content">
+<button class="filter-mobile-trigger" id="filterMobileTrigger">
+  <span id="filterMobileLabel">Filter items</span>
+  <span class="filter-mobile-chevron">▾</span>
+</button>
 
   <!-- FIRST TRIMESTER -->
   <div class="phase active" id="phase-t1">
@@ -771,7 +973,7 @@
       </div>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t1-asap">
       <div class="week-label" data-min-week="0">As Soon As You Know</div>
       <ul class="checklist" id="list-t1-asap">
         <li class="check-item" data-id="t1-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Confirm pregnancy with a home test, then a blood test</div><div class="check-note">hCG blood test confirms and can estimate gestational age</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -787,7 +989,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t1-6to10">
       <div class="week-label" data-min-week="6">Weeks 6 – 10</div>
       <ul class="checklist" id="list-t1-6to10">
         <li class="check-item" data-id="t1-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Attend first prenatal appointment</div><div class="check-note">Bloodwork, urine test, pelvic exam, medical history</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -800,7 +1002,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t1-10to13">
       <div class="week-label" data-min-week="10">Weeks 10 – 13</div>
       <ul class="checklist">
         <li class="check-item" data-id="t1-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide who to tell and when (the "12-week rule" is personal)</div></div><span class="check-tag tag-emotional">Emotional</span></li>
@@ -825,7 +1027,7 @@
       </div>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t2-14to18">
       <div class="week-label" data-min-week="14">Weeks 14 – 18</div>
       <ul class="checklist">
         <li class="check-item" data-id="t2-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Second trimester prenatal appointment (glucose screening begins)</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -839,7 +1041,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t2-anatomy">
       <div class="week-label" data-min-week="19">The Big Anatomy Scan (~Week 20)</div>
       <ul class="checklist">
         <li class="check-item" data-id="t2-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">20-week anatomy ultrasound — the big one!</div><div class="check-note">Checks all major organ systems; you can often find out the sex</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -848,7 +1050,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t2-20to27">
       <div class="week-label" data-min-week="21">Weeks 20 – 27</div>
       <ul class="checklist">
         <li class="check-item" data-id="t2-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research and choose a pediatrician</div><div class="check-note">Schedule a "meet the doctor" visit before the baby arrives</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -880,7 +1082,7 @@
       </div>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t3-28to32">
       <div class="week-label" data-min-week="28">Weeks 28 – 32</div>
       <ul class="checklist">
         <li class="check-item" data-id="t3-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Tdap vaccination (~27–36 weeks)</div><div class="check-note">Protects baby against whooping cough before they can be vaccinated</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -895,7 +1097,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t3-32to36">
       <div class="week-label" data-min-week="32">Weeks 32 – 36</div>
       <ul class="checklist">
         <li class="check-item" data-id="t3-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Pre-register at your hospital or birth center</div></div><span class="check-tag tag-practical">Practical</span></li>
@@ -910,7 +1112,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="t3-36to40">
       <div class="week-label" data-min-week="36">Weeks 36 – 40</div>
       <ul class="checklist">
         <li class="check-item" data-id="t3-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Pack your hospital bag</div><div class="check-note">For mom, partner, and baby — don't forget phone chargers</div></div><span class="check-tag tag-practical">Practical</span></li>
@@ -936,7 +1138,7 @@
       </div>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="birth-plan">
       <div class="week-label">Birth Plan</div>
       <ul class="checklist">
         <li class="check-item" data-id="b-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Write your birth plan and discuss with your OB</div><div class="check-note">Keep it flexible — 1–2 pages max, no doctor wants an essay</div></div><span class="check-tag tag-practical">Practical</span></li>
@@ -950,7 +1152,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="birth-bag">
       <div class="week-label">Hospital Bag Essentials</div>
       <ul class="checklist">
         <li class="check-item" data-id="b-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">ID, insurance cards, and hospital pre-registration paperwork</div></div><span class="check-tag tag-practical">Practical</span></li>
@@ -963,7 +1165,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="birth-hospital">
       <div class="week-label">At the Hospital</div>
       <ul class="checklist">
         <li class="check-item" data-id="b-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Complete birth certificate paperwork at the hospital</div></div><span class="check-tag tag-practical">Practical</span></li>
@@ -986,7 +1188,7 @@
       </div>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="pp-first2wks">
       <div class="week-label">First Two Weeks Home</div>
       <ul class="checklist">
         <li class="check-item" data-id="pp-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Schedule newborn's first pediatrician visit (24–72 hours after discharge)</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -1001,7 +1203,7 @@
       </ul>
     </div>
 
-    <div class="week-group">
+    <div class="week-group" data-group-id="pp-2to6">
       <div class="week-label">Weeks 2 – 6</div>
       <ul class="checklist">
         <li class="check-item" data-id="pp-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Ongoing pediatrician well-baby visits (2 weeks, 1 month…)</div></div><span class="check-tag tag-medical">Medical</span></li>
@@ -1022,6 +1224,14 @@
     <button class="reset-btn" id="resetBtn">↺ Reset all checkmarks</button>
     <button class="settings-btn" id="settingsBtn">⚙ Sync settings</button>
   </div>
+</div><!-- end .content -->
+</div><!-- end .page-layout -->
+
+<!-- Mobile filter drawer -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay"></div>
+<div class="filter-drawer" id="filterDrawer">
+  <div class="filter-drawer-handle"></div>
+  <div class="filter-drawer-inner" id="filterDrawerInner"></div>
 </div>
 
 <!-- Sync status pill -->
@@ -1096,9 +1306,11 @@
   const LS_CONFIG  = 'pregnancy-fb-config';
   const LS_LMP     = 'pregnancy-lmp-date';
   const LS_NAME    = 'pregnancy-baby-name';
+  const LS_CUSTOM  = 'pregnancy-custom-items';
   const DB_PATH    = 'checklist';
   const LMP_PATH   = 'settings/lmp';
   const NAME_PATH  = 'settings/name';
+  const CUSTOM_PATH = 'custom';
 
   // ── Local state helpers ─────────────────────────────────────
   function loadLocal() {
@@ -1127,6 +1339,142 @@
     if (!db) return;
     try { await update(ref(db, '/'), { [NAME_PATH]: name || null }); }
     catch (e) { console.error('Name sync failed:', e); }
+  }
+
+  function loadCustom() {
+    try { return JSON.parse(localStorage.getItem(LS_CUSTOM) || '{}'); } catch { return {}; }
+  }
+  function saveCustom(items) { localStorage.setItem(LS_CUSTOM, JSON.stringify(items)); }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  async function writeCustomMeta(id, val) {
+    if (!db) return;
+    try { await update(ref(db, '/'), { [`${CUSTOM_PATH}/${id}`]: val || null }); }
+    catch(e) { console.error('Custom item sync failed:', e); }
+  }
+
+  function renderCustomItem(id, groupId, text, tag, note) {
+    const group = document.querySelector(`.week-group[data-group-id="${groupId}"]`);
+    if (!group) return;
+    const list = group.querySelector('.checklist');
+    const li = document.createElement('li');
+    li.className = 'check-item custom-item' + (state[id] ? ' done' : '');
+    li.dataset.id = id;
+    const noteHtml = note ? `<div class="check-note">${escapeHtml(note)}</div>` : '';
+    const tagHtml  = tag  ? `<span class="check-tag ${escapeHtml(tag)}">${escapeHtml(TAG_LABELS[tag] || '')}</span>` : '';
+    li.innerHTML = `
+      <div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div class="check-text"><div class="check-title">${escapeHtml(text)}</div>${noteHtml}</div>
+      ${tagHtml}
+      <button class="delete-item-btn" title="Remove">×</button>
+    `;
+    li.addEventListener('click', e => {
+      if (e.target.closest('.delete-item-btn')) return;
+      state[id] = !state[id];
+      if (!state[id]) delete state[id];
+      li.classList.toggle('done', !!state[id]);
+      if (state[id]) { li.classList.add('just-done'); setTimeout(() => li.classList.remove('just-done'), 300); }
+      saveLocal(state);
+      updateProgress();
+      updateWeekGroupTags();
+      writeItem(id, !!state[id]);
+    });
+    li.querySelector('.delete-item-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      deleteCustomItem(id);
+    });
+    list.appendChild(li);
+  }
+
+  const TAG_LABELS = {
+    'tag-medical':   'Medical',
+    'tag-practical': 'Practical',
+    'tag-emotional': 'Emotional',
+    'tag-partner':   'Partner',
+    'tag-baby':      'Baby',
+  };
+
+  function renderAllCustomItems() {
+    document.querySelectorAll('.check-item.custom-item').forEach(el => el.remove());
+    const items = loadCustom();
+    Object.entries(items).forEach(([id, { groupId, text, tag, note }]) =>
+      renderCustomItem(id, groupId, text, tag, note));
+    if (typeof applyFilters === 'function') applyFilters();
+  }
+
+  function addCustomItem(groupId, text, tag, note) {
+    const id = 'c-' + Date.now();
+    const items = loadCustom();
+    items[id] = { groupId, text, tag: tag || null, note: note || null };
+    saveCustom(items);
+    writeCustomMeta(id, items[id]);
+    renderCustomItem(id, groupId, text, tag, note);
+    updateProgress();
+    updateWeekGroupTags();
+  }
+
+  function deleteCustomItem(id) {
+    const items = loadCustom();
+    delete items[id];
+    saveCustom(items);
+    delete state[id];
+    saveLocal(state);
+    writeItem(id, false);
+    writeCustomMeta(id, null);
+    document.querySelector(`.check-item[data-id="${id}"]`)?.remove();
+    updateProgress();
+    updateWeekGroupTags();
+  }
+
+  function initAddItemButtons() {
+    document.querySelectorAll('.week-group[data-group-id]').forEach(group => {
+      const groupId = group.dataset.groupId;
+      const btn = document.createElement('button');
+      btn.className = 'add-item-btn';
+      btn.innerHTML = '<span>+</span> Add item';
+      btn.addEventListener('click', () => {
+        btn.style.display = 'none';
+        const form = document.createElement('div');
+        form.className = 'add-item-form';
+        form.innerHTML = `
+          <div class="add-item-row">
+            <input class="add-item-input" type="text" placeholder="Item title…" maxlength="200" />
+            <button class="add-item-confirm" title="Add">✓</button>
+            <button class="add-item-cancel" title="Cancel">×</button>
+          </div>
+          <div class="add-item-meta-row">
+            <select class="add-item-tag">
+              <option value="">No category</option>
+              <option value="tag-medical">Medical</option>
+              <option value="tag-practical">Practical</option>
+              <option value="tag-emotional">Emotional</option>
+              <option value="tag-partner">Partner</option>
+              <option value="tag-baby">Baby</option>
+            </select>
+            <input class="add-item-note" type="text" placeholder="Optional note…" maxlength="300" />
+          </div>
+        `;
+        const input   = form.querySelector('.add-item-input');
+        const tagSel  = form.querySelector('.add-item-tag');
+        const noteIn  = form.querySelector('.add-item-note');
+        const confirm = () => {
+          const text = input.value.trim();
+          if (text) addCustomItem(groupId, text, tagSel.value || null, noteIn.value.trim() || null);
+          form.remove(); btn.style.display = '';
+        };
+        const cancel = () => { form.remove(); btn.style.display = ''; };
+        form.querySelector('.add-item-confirm').addEventListener('click', confirm);
+        form.querySelector('.add-item-cancel').addEventListener('click', cancel);
+        input.addEventListener('keydown', e => { if (e.key === 'Enter') confirm(); if (e.key === 'Escape') cancel(); });
+        noteIn.addEventListener('keydown', e => { if (e.key === 'Enter') confirm(); if (e.key === 'Escape') cancel(); });
+        group.appendChild(form);
+        input.focus();
+      });
+      group.appendChild(btn);
+    });
   }
 
   const weekFacts = {
@@ -1432,6 +1780,23 @@
         }
       });
 
+      onValue(ref(db, CUSTOM_PATH), (snapshot) => {
+        const remote = snapshot.val() || {};
+        const local  = loadCustom();
+        const merged = { ...local };
+        Object.entries(remote).forEach(([id, val]) => {
+          if (val) merged[id] = val;
+          else delete merged[id];
+        });
+        saveCustom(merged);
+        Object.entries(merged).forEach(([id, val]) => {
+          if (!remote[id]) writeCustomMeta(id, val);
+        });
+        renderAllCustomItems();
+        updateProgress();
+        updateWeekGroupTags();
+      });
+
       return true;
     } catch(e) {
       console.error('Firebase init failed:', e);
@@ -1543,11 +1908,97 @@
   document.getElementById('pregStartBtn').addEventListener('click', openModal);
   document.getElementById('pregEdit').addEventListener('click', openModal);
 
+  // ── Filters ───────────────────────────────────────────────────
+  const FILTERS = [
+    { value: 'all',            label: 'All items' },
+    { value: 'tag-medical',    label: 'Medical' },
+    { value: 'tag-practical',  label: 'Practical' },
+    { value: 'tag-emotional',  label: 'Emotional' },
+    { value: 'tag-partner',    label: 'Partner' },
+    { value: 'tag-baby',       label: 'Baby' },
+  ];
+
+  const activeFilters = new Set();
+
+  function buildFilterButtons(container) {
+    container.innerHTML = '';
+    FILTERS.forEach(({ value, label }) => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn' + (value === 'all' && activeFilters.size === 0 ? ' active' : activeFilters.has(value) ? ' active' : '');
+      btn.dataset.filter = value;
+      btn.textContent = label;
+      btn.addEventListener('click', () => handleFilterClick(value));
+      container.appendChild(btn);
+    });
+  }
+
+  function syncFilterButtonStates() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      const v = btn.dataset.filter;
+      btn.classList.toggle('active', v === 'all' ? activeFilters.size === 0 : activeFilters.has(v));
+    });
+    const trigger = document.getElementById('filterMobileTrigger');
+    const label   = document.getElementById('filterMobileLabel');
+    if (activeFilters.size === 0) {
+      trigger.classList.remove('has-filters');
+      label.textContent = 'Filter items';
+    } else {
+      trigger.classList.add('has-filters');
+      const names = [...activeFilters].map(f => FILTERS.find(x => x.value === f)?.label).filter(Boolean);
+      label.textContent = names.join(', ');
+    }
+  }
+
+  function applyFilters() {
+    const active = [...activeFilters];
+    document.querySelectorAll('.check-item[data-id]').forEach(item => {
+      if (active.length === 0) {
+        item.classList.remove('filter-hidden');
+      } else {
+        const hasMatch = active.some(f => item.querySelector(`.${f}`));
+        item.classList.toggle('filter-hidden', !hasMatch);
+      }
+    });
+    document.querySelectorAll('.week-group[data-group-id]').forEach(group => {
+      const visible = group.querySelectorAll('.check-item[data-id]:not(.filter-hidden)').length;
+      group.classList.toggle('filter-empty', visible === 0);
+    });
+    syncFilterButtonStates();
+  }
+
+  function handleFilterClick(value) {
+    if (value === 'all') {
+      activeFilters.clear();
+    } else {
+      if (activeFilters.has(value)) activeFilters.delete(value);
+      else activeFilters.add(value);
+    }
+    applyFilters();
+  }
+
+  function initFilters() {
+    buildFilterButtons(document.getElementById('filterSidebar'));
+    buildFilterButtons(document.getElementById('filterDrawerInner'));
+
+    const overlay = document.getElementById('filterDrawerOverlay');
+    const drawer  = document.getElementById('filterDrawer');
+    const trigger = document.getElementById('filterMobileTrigger');
+
+    const openDrawer  = () => { overlay.classList.add('open'); drawer.classList.add('open'); };
+    const closeDrawer = () => { overlay.classList.remove('open'); drawer.classList.remove('open'); };
+
+    trigger.addEventListener('click', openDrawer);
+    overlay.addEventListener('click', closeDrawer);
+  }
+
   // ── Bootstrap ─────────────────────────────────────────────────
   initItems();
   applyState();
   updateHeroName();
   updatePregTracker();
+  renderAllCustomItems();
+  initAddItemButtons();
+  initFilters();
 
   const savedConfig = loadConfig();
   if (savedConfig && savedConfig.apiKey) {
