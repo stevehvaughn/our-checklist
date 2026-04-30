@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Pregnancy Journey</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf8f2;
+    --warm-white: #fffdf9;
+    --blush: #f2c4b0;
+    --dusty-rose: #d4897a;
+    --sage: #8aab8e;
+    --sage-light: #c4d9c6;
+    --terracotta: #c7694f;
+    --deep: #2d2420;
+    --mid: #6b4e47;
+    --soft: #a68880;
+    --gold: #c9a96e;
+    --gold-light: #e8d5b0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--deep);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* Header */
+  .hero {
+    background: linear-gradient(160deg, #f7ece3 0%, #ecd9cc 40%, #d9c5b8 100%);
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(212,137,122,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(138,171,142,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dusty-rose);
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 52px);
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+  .hero h1 em {
+    color: var(--dusty-rose);
+    font-style: italic;
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: var(--mid);
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    max-width: 380px;
+    margin: 0 auto;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--mid);
+    margin-bottom: 8px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--sage), var(--dusty-rose));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* Nav tabs */
+  .nav {
+    background: var(--warm-white);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 0 16px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    flex-shrink: 0;
+    padding: 14px 18px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: var(--mid); }
+  .nav-btn.active {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+  }
+
+  /* Content */
+  .content { max-width: 720px; margin: 0 auto; padding: 32px 16px; }
+
+  .phase { display: none; }
+  .phase.active { display: block; }
+
+  .phase-header {
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--gold-light);
+  }
+  .phase-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 8px;
+  }
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 6px;
+  }
+  .phase-desc {
+    font-size: 14px;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .phase-progress {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--soft);
+  }
+  .phase-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--gold-light);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .phase-progress-fill {
+    height: 100%;
+    background: var(--sage);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  /* Week groups */
+  .week-group { margin-bottom: 32px; }
+  .week-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dusty-rose);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .week-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-light);
+  }
+
+  /* Checklist items */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--warm-white);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .check-item:hover {
+    border-color: var(--gold-light);
+    background: #fffef9;
+  }
+  .check-item.done {
+    background: #f5f9f5;
+    border-color: rgba(138,171,142,0.3);
+  }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--blush);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-top: 1px;
+  }
+  .check-item.done .check-box {
+    background: var(--sage);
+    border-color: var(--sage);
+  }
+  .check-box svg { opacity: 0; transition: opacity 0.15s; }
+  .check-item.done .check-box svg { opacity: 1; }
+
+  .check-text { flex: 1; }
+  .check-title {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1.4;
+    transition: color 0.2s;
+  }
+  .check-item.done .check-title {
+    color: var(--soft);
+    text-decoration: line-through;
+    text-decoration-color: var(--sage-light);
+  }
+  .check-note {
+    font-size: 12px;
+    color: var(--soft);
+    margin-top: 2px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+  .check-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  .tag-medical { background: #fde8e8; color: #c05050; }
+  .tag-practical { background: #e8f0e8; color: #4a7a4a; }
+  .tag-emotional { background: #fdf0e0; color: #9a6a20; }
+  .tag-partner { background: #e8e8fd; color: #4a4a9a; }
+  .tag-baby { background: #fce8f4; color: #9a4080; }
+
+  /* Confetti-like celebration */
+  @keyframes pop { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+  .check-item.just-done { animation: pop 0.25s ease forwards; }
+
+  /* Empty state */
+  .all-done {
+    text-align: center;
+    padding: 40px 20px;
+    display: none;
+  }
+  .all-done.show { display: block; }
+  .all-done-icon { font-size: 48px; margin-bottom: 12px; }
+  .all-done h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--deep);
+    margin-bottom: 6px;
+  }
+  .all-done p { font-size: 14px; color: var(--mid); }
+
+  /* Reset btn */
+  .reset-wrap { text-align: center; margin-top: 48px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .reset-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--soft);
+    background: none;
+    border: 1px solid var(--gold-light);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { color: var(--mid); border-color: var(--blush); }
+  .settings-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--soft);
+    background: none;
+    border: 1px solid var(--gold-light);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .settings-btn:hover { color: var(--mid); border-color: var(--blush); }
+
+  /* Sync status pill */
+  .sync-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 200;
+    opacity: 0;
+    transform: translateY(6px);
+    pointer-events: none;
+  }
+  .sync-status.show { opacity: 1; transform: translateY(0); }
+  .sync-status.synced { background: rgba(138,171,142,0.15); color: var(--sage); border: 1px solid rgba(138,171,142,0.3); }
+  .sync-status.syncing { background: rgba(201,169,110,0.15); color: var(--gold); border: 1px solid rgba(201,169,110,0.3); }
+  .sync-status.offline { background: rgba(166,136,128,0.15); color: var(--soft); border: 1px solid rgba(166,136,128,0.3); }
+  .sync-status.error { background: rgba(199,105,79,0.12); color: var(--terracotta); border: 1px solid rgba(199,105,79,0.25); }
+  .sync-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+  .sync-status.syncing .sync-dot { animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Setup modal overlay */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(45,36,32,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--warm-white);
+    border-radius: 16px;
+    padding: 36px 32px;
+    max-width: 480px;
+    width: 100%;
+    transform: translateY(16px);
+    transition: transform 0.25s ease;
+    box-shadow: 0 24px 60px rgba(45,36,32,0.18);
+  }
+  .modal-overlay.show .modal { transform: translateY(0); }
+
+  .modal-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dusty-rose);
+    margin-bottom: 10px;
+  }
+  .modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 10px;
+  }
+  .modal p {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .modal-steps {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: var(--mid);
+    line-height: 1.8;
+  }
+  .modal-steps a { color: var(--terracotta); text-decoration: none; }
+  .modal-steps a:hover { text-decoration: underline; }
+  .modal-steps ol { padding-left: 18px; }
+  .modal-steps li { margin-bottom: 4px; }
+
+  .field-group { margin-bottom: 14px; }
+  .field-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .field-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--gold-light);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--deep);
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .field-group input:focus { border-color: var(--dusty-rose); }
+  .field-group input::placeholder { color: var(--soft); opacity: 0.6; }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .btn-primary {
+    flex: 1;
+    padding: 11px 20px;
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--dusty-rose); }
+  .btn-secondary {
+    padding: 11px 20px;
+    background: none;
+    color: var(--soft);
+    border: 1px solid var(--gold-light);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { color: var(--mid); border-color: var(--blush); }
+  .modal-error {
+    font-size: 12px;
+    color: var(--terracotta);
+    margin-top: 8px;
+    display: none;
+  }
+  .modal-error.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <p class="hero-eyebrow">Your pregnancy journey</p>
+  <h1>Hello, <em>little one.</em></h1>
+  <p class="hero-sub">A complete checklist from now through postpartum</p>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="totalDoneLabel">0 completed</span>
+      <span id="totalLabel">0 total</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="totalProgress" style="width:0%"></div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav" id="mainNav">
+  <button class="nav-btn active" data-phase="t1">1st Trimester</button>
+  <button class="nav-btn" data-phase="t2">2nd Trimester</button>
+  <button class="nav-btn" data-phase="t3">3rd Trimester</button>
+  <button class="nav-btn" data-phase="birth">Birth Prep</button>
+  <button class="nav-btn" data-phase="postpartum">Postpartum</button>
+</nav>
+
+<div class="content">
+
+  <!-- FIRST TRIMESTER -->
+  <div class="phase active" id="phase-t1">
+    <div class="phase-header">
+      <div class="phase-tag">Weeks 1 – 13</div>
+      <h2 class="phase-title">First Trimester</h2>
+      <p class="phase-desc">The foundational weeks — full of wonder, maybe some nausea, and a lot of important early decisions. Take it one step at a time.</p>
+      <div class="phase-progress">
+        <span id="t1-done">0</span>/<span id="t1-total">0</span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="t1-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">As Soon As You Know</div>
+      <ul class="checklist" id="list-t1-asap">
+        <li class="check-item" data-id="t1-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Confirm pregnancy with a home test, then a blood test</div><div class="check-note">hCG blood test confirms and can estimate gestational age</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-2"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Choose an OB-GYN or midwife and schedule your first prenatal visit</div><div class="check-note">Usually around 8–10 weeks; sooner if you have concerns</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-3"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Start a prenatal vitamin with folic acid (400–800 mcg)</div><div class="check-note">Critical for neural tube development in early weeks</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-4"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Review your health insurance coverage for maternity care</div><div class="check-note">Understand your deductible, co-pays, and in-network providers</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t1-5"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Stop alcohol, smoking, and recreational drugs immediately</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-6"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Check all current medications with your doctor for safety</div><div class="check-note">Including OTC drugs and supplements</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Tell your partner — and share this checklist together</div></div><span class="check-tag tag-partner">Partner</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 6 – 10</div>
+      <ul class="checklist" id="list-t1-6to10">
+        <li class="check-item" data-id="t1-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Attend first prenatal appointment</div><div class="check-note">Bloodwork, urine test, pelvic exam, medical history</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Hear the heartbeat (first ultrasound ~8 weeks)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Discuss genetic screening options with your OB</div><div class="check-note">NIPT, nuchal translucency, carrier screening — know your options</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-11"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research your workplace maternity / paternity leave policies</div><div class="check-note">Federal FMLA, Colorado FAMLI, and any employer benefits</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t1-12"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Manage morning sickness: ginger, small meals, B6 if severe</div><div class="check-note">Talk to your OB if you can't keep food down (hyperemesis)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-13"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Begin journaling or documenting this experience</div><div class="check-note">You'll cherish having it later — even just voice memos count</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 10 – 13</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t1-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide who to tell and when (the "12-week rule" is personal)</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="t1-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">First trimester screening bloodwork (10–13 weeks)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t1-16"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Start thinking about birth setting preferences (hospital, birth center)</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t1-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Update your will and beneficiaries</div><div class="check-note">Now is the right time to start thinking about estate basics</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t1-18"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Look into term life insurance if you don't have it</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t1-19"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Check in on each other emotionally — this is big for both of you</div></div><span class="check-tag tag-partner">Partner</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SECOND TRIMESTER -->
+  <div class="phase" id="phase-t2">
+    <div class="phase-header">
+      <div class="phase-tag">Weeks 14 – 27</div>
+      <h2 class="phase-title">Second Trimester</h2>
+      <p class="phase-desc">Often called the "golden trimester" — energy returns, the bump grows, and you'll start feeling those first kicks. There's a lot to prepare and savor.</p>
+      <div class="phase-progress">
+        <span id="t2-done">0</span>/<span id="t2-total">0</span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="t2-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 14 – 18</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t2-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Second trimester prenatal appointment (glucose screening begins)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t2-2"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Quad screen / AFP blood test (15–20 weeks)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t2-3"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Announce your pregnancy (if you haven't)</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="t2-4"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Notify your employer and HR about your pregnancy</div><div class="check-note">Start FMLA / FAMLI paperwork conversations early</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-5"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Start researching childbirth education classes</div><div class="check-note">Lamaze, Bradley method, hospital-based — many book up fast</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-6"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Begin maternity clothes shopping</div></div><span class="check-tag tag-practical">Practical</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">The Big Anatomy Scan (~Week 20)</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t2-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">20-week anatomy ultrasound — the big one!</div><div class="check-note">Checks all major organ systems; you can often find out the sex</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t2-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide if you want to know the sex — and if so, plan a reveal</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="t2-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Start talking about baby names</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 20 – 27</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t2-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research and choose a pediatrician</div><div class="check-note">Schedule a "meet the doctor" visit before the baby arrives</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t2-11"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Create a baby registry</div><div class="check-note">Include a range of price points; prioritize safety-rated items</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t2-12"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research childcare options if returning to work</div><div class="check-note">Waitlists for daycare can be 6–12+ months long — start now</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-13"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Start a baby budget and savings plan</div><div class="check-note">Estimate first-year costs; look into 529 accounts for education</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">1-hour glucose tolerance test (~24–28 weeks)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t2-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Begin planning the nursery</div><div class="check-note">Paint fumes — ventilate well and consider low-VOC paints</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t2-16"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Sign up for childbirth education class</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research and consider hiring a doula</div><div class="check-note">Proven to reduce labor anxiety and interventions</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t2-18"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Plan a babymoon trip if desired (second trimester is ideal)</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="t2-19"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Talk about parenting values and philosophies together</div><div class="check-note">Sleep training, feeding choices, screen time — no right answers, just alignment</div></div><span class="check-tag tag-partner">Partner</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- THIRD TRIMESTER -->
+  <div class="phase" id="phase-t3">
+    <div class="phase-header">
+      <div class="phase-tag">Weeks 28 – 40</div>
+      <h2 class="phase-title">Third Trimester</h2>
+      <p class="phase-desc">The home stretch. Things get real — and wonderful and uncomfortable all at once. Get your nest ready and trust the process.</p>
+      <div class="phase-progress">
+        <span id="t3-done">0</span>/<span id="t3-total">0</span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="t3-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 28 – 32</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t3-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Tdap vaccination (~27–36 weeks)</div><div class="check-note">Protects baby against whooping cough before they can be vaccinated</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t3-2"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">RhoGAM shot if Rh-negative</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t3-3"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Complete childbirth education class</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-4"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Take a newborn care class</div><div class="check-note">Covers bathing, feeding, swaddling, safe sleep</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t3-5"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Take a breastfeeding / infant feeding class</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t3-6"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Buy and install the infant car seat — get it inspected</div><div class="check-note">Many fire stations offer free inspections</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t3-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Finalize and set up the nursery</div><div class="check-note">Safe sleep: firm mattress, no bumpers/pillows/blankets in crib</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t3-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Baby shower — enjoy it!</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 32 – 36</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t3-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Pre-register at your hospital or birth center</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Tour your birth facility</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-11"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Wash and organize all baby clothes and gear</div><div class="check-note">Use fragrance-free, baby-safe detergent</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="t3-12"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Stock the house: diapers, wipes, formula or nursing supplies</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-13"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Research cord blood banking — decide yes or no</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t3-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Group B Strep test (~35–37 weeks)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t3-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Freeze meals for after baby arrives (freezer meals!)</div><div class="check-note">Double every recipe you cook and freeze the second batch</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-16"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Add baby to your health insurance plan (within 30 days of birth)</div><div class="check-note">You'll need to do this immediately after birth — know the process now</div></div><span class="check-tag tag-practical">Practical</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 36 – 40</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="t3-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Pack your hospital bag</div><div class="check-note">For mom, partner, and baby — don't forget phone chargers</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-18"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Know the signs of labor and when to go to the hospital</div><div class="check-note">5-1-1 rule: contractions 5 min apart, lasting 1 min, for 1 hour</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="t3-19"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Finalize your support network — who is your "call list"?</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-20"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Plan for pet care and home coverage while at the hospital</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="t3-21"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Have a date night (or a quiet night in) — savor the two of you</div></div><span class="check-tag tag-partner">Partner</span></li>
+        <li class="check-item" data-id="t3-22"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Rest. Seriously. Sleep while you still can.</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BIRTH PREP -->
+  <div class="phase" id="phase-birth">
+    <div class="phase-header">
+      <div class="phase-tag">Before & During Birth</div>
+      <h2 class="phase-title">Birth Preparation</h2>
+      <p class="phase-desc">Know your preferences, communicate them clearly, and remember: flexibility is part of the plan. Whatever happens, you've got this.</p>
+      <div class="phase-progress">
+        <span id="birth-done">0</span>/<span id="birth-total">0</span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="birth-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Birth Plan</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="b-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Write your birth plan and discuss with your OB</div><div class="check-note">Keep it flexible — 1–2 pages max, no doctor wants an essay</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-2"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide your pain management preferences (epidural, natural, etc.)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="b-3"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide on delayed cord clamping preferences</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="b-4"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide on skin-to-skin contact immediately after birth</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="b-5"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Decide on feeding preferences (breast, formula, or both) — no judgment</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="b-6"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Discuss who will be in the delivery room</div></div><span class="check-tag tag-partner">Partner</span></li>
+        <li class="check-item" data-id="b-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Create a music playlist for labor</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Hospital Bag Essentials</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="b-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">ID, insurance cards, and hospital pre-registration paperwork</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Comfortable clothes and toiletries for mom (2–3 day stay)</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Snacks and comfort items for partner</div></div><span class="check-tag tag-partner">Partner</span></li>
+        <li class="check-item" data-id="b-11"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Newborn outfit and swaddle blanket for going home</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="b-12"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Phone + charger + camera</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-13"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Nursing bra and nipple cream (if breastfeeding)</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Car seat installed and ready in the car</div></div><span class="check-tag tag-baby">Baby</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">At the Hospital</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="b-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Complete birth certificate paperwork at the hospital</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-16"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Apply for Social Security number at the hospital (if offered)</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="b-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Ask about lactation consultant support before discharge</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="b-18"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Take all the free samples, diapers, and formula they offer</div><div class="check-note">Seriously — take everything</div></div><span class="check-tag tag-practical">Practical</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- POSTPARTUM -->
+  <div class="phase" id="phase-postpartum">
+    <div class="phase-header">
+      <div class="phase-tag">After Baby Arrives</div>
+      <h2 class="phase-title">Postpartum</h2>
+      <p class="phase-desc">The fourth trimester is real. Take care of yourselves, accept help, and know that the fog eventually lifts. You're doing better than you think.</p>
+      <div class="phase-progress">
+        <span id="postpartum-done">0</span>/<span id="postpartum-total">0</span>
+        <div class="phase-progress-bar"><div class="phase-progress-fill" id="postpartum-bar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">First Two Weeks Home</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="pp-1"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Schedule newborn's first pediatrician visit (24–72 hours after discharge)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="pp-2"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Set up a feeding log (app or paper) — wet/dirty diapers, feeds, sleep</div><div class="check-note">Sleep deprivation makes memory unreliable; log everything</div></div><span class="check-tag tag-baby">Baby</span></li>
+        <li class="check-item" data-id="pp-3"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Accept all help offered — meals, cleaning, errands</div><div class="check-note">Say yes. Now is not the time for pride.</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="pp-4"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Watch for signs of postpartum depression or anxiety (both partners)</div><div class="check-note">PPD affects 1 in 5 moms — and 1 in 10 dads. Not a weakness.</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="pp-5"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Add baby to health insurance (do this within 30 days of birth!)</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="pp-6"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Register the birth certificate with your county/state</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="pp-7"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Mom: care for your body — rest, peri bottle, stool softener, pads</div><div class="check-note">Recovery from birth (vaginal or C-section) takes time and care</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="pp-8"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Partner: take your leave — be fully present these first weeks</div></div><span class="check-tag tag-partner">Partner</span></li>
+      </ul>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Weeks 2 – 6</div>
+      <ul class="checklist">
+        <li class="check-item" data-id="pp-9"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Ongoing pediatrician well-baby visits (2 weeks, 1 month…)</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="pp-10"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Mom's 6-week postpartum OB checkup</div><div class="check-note">Physical recovery, mental health screening, contraception discussion</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="pp-11"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Connect with a lactation consultant if breastfeeding challenges arise</div></div><span class="check-tag tag-medical">Medical</span></li>
+        <li class="check-item" data-id="pp-12"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Find a new parent support group or mommy & me class</div><div class="check-note">Community is one of the most underrated postpartum tools</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+        <li class="check-item" data-id="pp-13"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Update your will to include your child</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="pp-14"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Open a 529 college savings account</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="pp-15"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Check in with each other as a couple — not just as parents</div><div class="check-note">It's easy to lose the relationship in the chaos of a newborn</div></div><span class="check-tag tag-partner">Partner</span></li>
+        <li class="check-item" data-id="pp-16"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Plan your return to work and childcare logistics</div></div><span class="check-tag tag-practical">Practical</span></li>
+        <li class="check-item" data-id="pp-17"><div class="check-box"><svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4L4.5 7.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div><div class="check-text"><div class="check-title">Take a hundred photos. Then take a hundred more.</div></div><span class="check-tag tag-emotional">Emotional</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" id="resetBtn">↺ Reset all checkmarks</button>
+    <button class="settings-btn" id="settingsBtn">⚙ Sync settings</button>
+  </div>
+</div>
+
+<!-- Sync status pill -->
+<div class="sync-status" id="syncStatus">
+  <div class="sync-dot"></div>
+  <span id="syncLabel">Synced</span>
+</div>
+
+<!-- Firebase setup modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-eyebrow">One-time setup</div>
+    <h2>Connect shared sync</h2>
+    <p>Add your Firebase config so both of you see the same checkmarks in real time — from any device, anywhere.</p>
+
+    <div class="modal-steps">
+      <ol>
+        <li>Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></li>
+        <li>Create a project → Add a web app → copy the config values below</li>
+        <li>In Firebase console: <strong>Build → Realtime Database → Create database</strong> (start in test mode)</li>
+      </ol>
+    </div>
+
+    <div class="field-group">
+      <label>API Key</label>
+      <input type="text" id="f-apiKey" placeholder="AIzaSy..." autocomplete="off" />
+    </div>
+    <div class="field-group">
+      <label>Database URL</label>
+      <input type="text" id="f-dbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com" autocomplete="off" />
+    </div>
+    <div class="field-group">
+      <label>Project ID</label>
+      <input type="text" id="f-projectId" placeholder="your-project-id" autocomplete="off" />
+    </div>
+    <div class="field-group">
+      <label>App ID</label>
+      <input type="text" id="f-appId" placeholder="1:123456789:web:abc123" autocomplete="off" />
+    </div>
+
+    <p id="modalError" class="modal-error"></p>
+
+    <div class="modal-actions">
+      <button class="btn-primary" id="saveConfigBtn">Connect Firebase</button>
+      <button class="btn-secondary" id="skipConfigBtn">Use local only</button>
+    </div>
+  </div>
+
+</div>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+  import { getDatabase, ref, onValue, update, remove } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+  // ── Constants ──────────────────────────────────────────────
+  const LS_STATE   = 'pregnancy-checklist-v1';
+  const LS_CONFIG  = 'pregnancy-fb-config';
+  const DB_PATH    = 'checklist';
+
+  // ── Local state helpers ─────────────────────────────────────
+  function loadLocal() {
+    try { return JSON.parse(localStorage.getItem(LS_STATE) || '{}'); } catch { return {}; }
+  }
+  function saveLocal(s) {
+    localStorage.setItem(LS_STATE, JSON.stringify(s));
+  }
+  function loadConfig() {
+    try { return JSON.parse(localStorage.getItem(LS_CONFIG) || 'null'); } catch { return null; }
+  }
+  function saveConfig(c) {
+    localStorage.setItem(LS_CONFIG, JSON.stringify(c));
+  }
+
+  // ── App state ───────────────────────────────────────────────
+  let state   = loadLocal();
+  let db      = null;
+  let dbRef   = null;
+  let syncing = false;
+
+  // ── Sync status UI ──────────────────────────────────────────
+  const statusEl    = document.getElementById('syncStatus');
+  const statusLabel = document.getElementById('syncLabel');
+  let statusTimer;
+
+  function showStatus(type, text, autohide = true) {
+    statusEl.className = `sync-status show ${type}`;
+    statusLabel.textContent = text;
+    clearTimeout(statusTimer);
+    if (autohide) statusTimer = setTimeout(() => statusEl.classList.remove('show'), 3000);
+  }
+
+  // ── Progress UI ─────────────────────────────────────────────
+  function updateProgress() {
+    const allItems = document.querySelectorAll('.check-item[data-id]');
+    const total    = allItems.length;
+    const done     = Object.values(state).filter(Boolean).length;
+
+    document.getElementById('totalDoneLabel').textContent = `${done} completed`;
+    document.getElementById('totalLabel').textContent     = `${total} total`;
+    document.getElementById('totalProgress').style.width  = total ? `${(done/total)*100}%` : '0%';
+
+    ['t1','t2','t3','birth','postpartum'].forEach(phase => {
+      const phaseEl    = document.getElementById('phase-' + phase);
+      if (!phaseEl) return;
+      const items      = phaseEl.querySelectorAll('.check-item[data-id]');
+      const phaseTotal = items.length;
+      const phaseDone  = Array.from(items).filter(i => state[i.dataset.id]).length;
+      const bar        = document.getElementById(phase+'-bar');
+      const doneEl     = document.getElementById(phase+'-done');
+      const totalEl    = document.getElementById(phase+'-total');
+      if (bar)    bar.style.width      = phaseTotal ? `${(phaseDone/phaseTotal)*100}%` : '0%';
+      if (doneEl) doneEl.textContent   = phaseDone;
+      if (totalEl) totalEl.textContent = phaseTotal;
+    });
+  }
+
+  // ── Render state onto checkboxes ────────────────────────────
+  function applyState() {
+    document.querySelectorAll('.check-item[data-id]').forEach(item => {
+      item.classList.toggle('done', !!state[item.dataset.id]);
+    });
+    updateProgress();
+  }
+
+  // ── Firebase write (single item) ────────────────────────────
+  async function writeItem(id, val) {
+    if (!dbRef) return;
+    showStatus('syncing', 'Saving…', false);
+    try {
+      const updates = {};
+      if (val) updates[`${DB_PATH}/${id}`] = true;
+      else     updates[`${DB_PATH}/${id}`] = null; // null deletes in RTDB
+      await update(ref(db, '/'), updates);
+      showStatus('synced', '✓ Synced');
+    } catch (e) {
+      console.error(e);
+      showStatus('error', 'Sync failed — saved locally');
+    }
+  }
+
+  // ── Firebase reset ──────────────────────────────────────────
+  async function resetFirebase() {
+    if (!dbRef) return;
+    try { await remove(dbRef); } catch (e) { console.error(e); }
+  }
+
+  // ── Init items (click handlers) ─────────────────────────────
+  function initItems() {
+    document.querySelectorAll('.check-item[data-id]').forEach(item => {
+      item.addEventListener('click', () => {
+        const id     = item.dataset.id;
+        state[id]    = !state[id];
+        if (!state[id]) delete state[id];
+        item.classList.toggle('done', !!state[id]);
+        if (state[id]) {
+          item.classList.add('just-done');
+          setTimeout(() => item.classList.remove('just-done'), 300);
+        }
+        saveLocal(state);
+        updateProgress();
+        writeItem(id, !!state[id]);
+      });
+    });
+  }
+
+  // ── Firebase init & realtime listener ───────────────────────
+  function connectFirebase(config) {
+    try {
+      const app = initializeApp(config);
+      db    = getDatabase(app);
+      dbRef = ref(db, DB_PATH);
+
+      showStatus('syncing', 'Connecting…', false);
+
+      onValue(dbRef, (snapshot) => {
+        const remote = snapshot.val() || {};
+        // Merge: remote is source of truth
+        state = {};
+        Object.keys(remote).forEach(k => { if (remote[k]) state[k] = true; });
+        saveLocal(state);
+        applyState();
+        showStatus('synced', '✓ Live sync active');
+      }, (err) => {
+        console.error('Firebase listener error:', err);
+        showStatus('error', 'Sync error — using local', false);
+      });
+
+      return true;
+    } catch(e) {
+      console.error('Firebase init failed:', e);
+      return false;
+    }
+  }
+
+  // ── Nav ─────────────────────────────────────────────────────
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const phase = btn.dataset.phase;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('phase-' + phase).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // ── Reset ────────────────────────────────────────────────────
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    if (confirm('Reset all checkmarks for both of you? This cannot be undone.')) {
+      state = {};
+      saveLocal(state);
+      applyState();
+      if (dbRef) resetFirebase();
+    }
+  });
+
+  // ── Modal logic ──────────────────────────────────────────────
+  const overlay    = document.getElementById('modalOverlay');
+  const modalError = document.getElementById('modalError');
+
+  function openModal() {
+    // Pre-fill if config exists
+    const cfg = loadConfig();
+    if (cfg) {
+      document.getElementById('f-apiKey').value    = cfg.apiKey    || '';
+      document.getElementById('f-dbUrl').value     = cfg.databaseURL || '';
+      document.getElementById('f-projectId').value = cfg.projectId || '';
+      document.getElementById('f-appId').value     = cfg.appId    || '';
+    }
+    overlay.classList.add('show');
+  }
+  function closeModal() { overlay.classList.remove('show'); }
+
+  document.getElementById('settingsBtn').addEventListener('click', openModal);
+  document.getElementById('skipConfigBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+  document.getElementById('saveConfigBtn').addEventListener('click', () => {
+    const apiKey      = document.getElementById('f-apiKey').value.trim();
+    const databaseURL = document.getElementById('f-dbUrl').value.trim();
+    const projectId   = document.getElementById('f-projectId').value.trim();
+    const appId       = document.getElementById('f-appId').value.trim();
+    const authDomain  = `${projectId}.firebaseapp.com`;
+    const storageBucket = `${projectId}.appspot.com`;
+
+    modalError.classList.remove('show');
+
+    if (!apiKey || !databaseURL || !projectId || !appId) {
+      modalError.textContent = 'Please fill in all four fields.';
+      modalError.classList.add('show');
+      return;
+    }
+    if (!databaseURL.startsWith('https://')) {
+      modalError.textContent = 'Database URL should start with https://';
+      modalError.classList.add('show');
+      return;
+    }
+
+    const config = { apiKey, authDomain, databaseURL, projectId, storageBucket, appId };
+    saveConfig(config);
+
+    const ok = connectFirebase(config);
+    if (ok) {
+      closeModal();
+    } else {
+      modalError.textContent = 'Could not connect. Double-check your config values.';
+      modalError.classList.add('show');
+    }
+  });
+
+  // ── Bootstrap ─────────────────────────────────────────────────
+  initItems();
+  applyState();
+
+  const savedConfig = loadConfig();
+  if (savedConfig && savedConfig.apiKey) {
+    // Auto-connect on page load
+    connectFirebase(savedConfig);
+  } else {
+    // First visit — show setup modal
+    setTimeout(() => openModal(), 600);
+    showStatus('offline', 'Local only — no sync', false);
+    setTimeout(() => statusEl.classList.remove('show'), 4000);
+  }
+</script>
+</body>
+</html>
