@@ -1410,10 +1410,13 @@
     const items = loadCustom();
     items[id] = { groupId, text, tag: tag || null, note: note || null };
     saveCustom(items);
-    writeCustomMeta(id, items[id]);
-    renderCustomItem(id, groupId, text, tag, note);
-    updateProgress();
-    updateWeekGroupTags();
+    if (!db) {
+      // No Firebase — onValue won't fire, so render manually
+      renderCustomItem(id, groupId, text, tag, note);
+      updateProgress();
+      updateWeekGroupTags();
+    }
+    writeCustomMeta(id, items[id]); // triggers onValue synchronously when connected
   }
 
   function deleteCustomItem(id) {
