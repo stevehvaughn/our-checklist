@@ -383,6 +383,13 @@
     height: 1px;
     background: var(--gold-light);
   }
+  .week-label { cursor: pointer; }
+  .week-group-chevron {
+    font-size: 10px; color: var(--soft);
+    transition: transform 0.25s ease;
+    flex-shrink: 0; order: 2; line-height: 1; margin-left: 2px;
+  }
+  .week-group.collapsed .week-group-chevron { transform: rotate(-90deg); }
 
   .you-are-here-tag,
   .completed-tag {
@@ -1432,9 +1439,79 @@
     updateWeekGroupTags();
   }
 
+  function setGroupCollapsed(group, collapsed, animate) {
+    if (animate === undefined) animate = true;
+    const body = group.querySelector('.week-group-body');
+    if (!body) return;
+    group.classList.toggle('collapsed', collapsed);
+    if (collapsed) {
+      body.style.overflow = 'hidden';
+      if (animate) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          body.style.transition = 'max-height 0.3s ease';
+          body.style.maxHeight  = '0px';
+        }));
+      } else {
+        body.style.transition = '';
+        body.style.maxHeight  = '0px';
+      }
+    } else {
+      body.style.overflow = 'hidden';
+      if (animate) {
+        body.style.transition = 'max-height 0.3s ease';
+        body.style.maxHeight  = body.scrollHeight + 'px';
+        body.addEventListener('transitionend', () => {
+          if (!group.classList.contains('collapsed')) {
+            body.style.maxHeight = 'none';
+            body.style.overflow  = '';
+            body.style.transition = '';
+          }
+        }, { once: true });
+      } else {
+        body.style.transition = '';
+        body.style.maxHeight  = 'none';
+        body.style.overflow   = '';
+      }
+    }
+  }
+
+  function initCollapsible() {
+    document.querySelectorAll('.week-group[data-group-id]').forEach(group => {
+      const label = group.querySelector('.week-label');
+      if (!label) return;
+
+      // Add chevron indicator to label
+      const chevron = document.createElement('span');
+      chevron.className = 'week-group-chevron';
+      chevron.textContent = '▾';
+      label.appendChild(chevron);
+
+      // Wrap all non-label children in a collapsible body
+      const body = document.createElement('div');
+      body.className = 'week-group-body';
+      [...group.children].forEach(child => { if (child !== label) body.appendChild(child); });
+      group.appendChild(body);
+
+      // Collapse if already completed on load
+      const items = group.querySelectorAll('.check-item[data-id]');
+      const isCompleted = items.length > 0 && Array.from(items).every(i => i.classList.contains('done'));
+      if (isCompleted) setGroupCollapsed(group, true, false);
+
+      // Toggle on label click
+      label.addEventListener('click', () => {
+        const willCollapse = !group.classList.contains('collapsed');
+        if (!willCollapse) group.dataset.userOpen = '1';
+        else delete group.dataset.userOpen;
+        setGroupCollapsed(group, willCollapse);
+      });
+    });
+  }
+
   function initAddItemButtons() {
     document.querySelectorAll('.week-group[data-group-id]').forEach(group => {
       const groupId = group.dataset.groupId;
+      const container = group.querySelector('.week-group-body') || group;
       const btn = document.createElement('button');
       btn.className = 'add-item-btn';
       btn.innerHTML = '<span>+</span> Add item';
@@ -1473,10 +1550,11 @@
         form.querySelector('.add-item-cancel').addEventListener('click', cancel);
         input.addEventListener('keydown', e => { if (e.key === 'Enter') confirm(); if (e.key === 'Escape') cancel(); });
         noteIn.addEventListener('keydown', e => { if (e.key === 'Enter') confirm(); if (e.key === 'Escape') cancel(); });
-        group.appendChild(form);
+        const body = group.querySelector('.week-group-body') || group;
+        body.appendChild(form);
         input.focus();
       });
-      group.appendChild(btn);
+      container.appendChild(btn);
     });
   }
 
@@ -1626,6 +1704,16 @@
         tag.className = 'you-are-here-tag';
         tag.textContent = 'you are here';
         label.insertAdjacentElement('afterbegin', tag);
+      }
+    });
+
+    // Auto-collapse completed groups (unless user manually opened them)
+    document.querySelectorAll('.week-group[data-group-id]').forEach(group => {
+      if (!group.querySelector('.week-group-body')) return;
+      const items = group.querySelectorAll('.check-item[data-id]');
+      const allDone = items.length > 0 && Array.from(items).every(i => i.classList.contains('done'));
+      if (allDone && !group.classList.contains('collapsed') && group.dataset.userOpen !== '1') {
+        setGroupCollapsed(group, true);
       }
     });
   }
@@ -2002,6 +2090,7 @@
   renderAllCustomItems();
   initAddItemButtons();
   initFilters();
+  initCollapsible();
 
   const savedConfig = loadConfig();
   if (savedConfig && savedConfig.apiKey) {
