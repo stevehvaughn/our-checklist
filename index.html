@@ -1626,13 +1626,15 @@
       return;
     }
 
-    const week = Math.floor(days / 7);
-    const day  = (days % 7) + 1;
+    const weekRaw = Math.floor(days / 7);
+    const dayRaw  = (days % 7) + 1;
+    const week = dayRaw === 7 ? weekRaw + 1 : weekRaw;
+    const day  = dayRaw === 7 ? 0 : dayRaw;
     const due  = new Date(lmp); due.setDate(due.getDate() + 280);
     const pct  = Math.min(days / 280 * 100, 100);
 
     document.getElementById('pregWk').textContent = `${week} ${week === 1 ? 'week' : 'weeks'}`;
-    document.getElementById('pregDy').textContent = `, ${day} ${day === 1 ? 'day' : 'days'}`;
+    document.getElementById('pregDy').textContent = day > 0 ? `, ${day} ${day === 1 ? 'day' : 'days'}` : '';
     const seasonEmojis = ['🥂','🩷','🌸','🌸','🌷','☀️','🌻','🌻','🍂','🍁','🦃','🎄'];
     const dueEmoji = seasonEmojis[due.getMonth()];
     document.getElementById('pregDueLine').textContent = `${dueEmoji} Due ${due.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
