@@ -860,6 +860,34 @@
   .preg-edit:hover { opacity: 1; }
 
   /* Pregnancy facts panel (right column) */
+  .facts-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 14px;
+    background: rgba(0,0,0,0.06);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .facts-tab {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 5px 6px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--soft);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .facts-tab:hover { color: var(--mid); }
+  .facts-tab.active { background: rgba(255,255,255,0.75); color: var(--deep); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .facts-panel { display: none; }
+  .facts-panel.active { display: block; }
+
   .preg-facts-wk-label {
     font-size: 10px;
     font-weight: 500;
@@ -868,6 +896,8 @@
     color: var(--dusty-rose);
     margin-bottom: 10px;
   }
+  .facts-panel[data-panel="mom"] .preg-facts-wk-label { color: var(--sage); }
+  .facts-panel[data-panel="dad"] .preg-facts-wk-label { color: #7a7aba; }
   .preg-facts-size {
     display: flex;
     align-items: center;
@@ -901,6 +931,8 @@
     font-size: 18px;
     line-height: 1.1;
   }
+  .facts-panel[data-panel="mom"] .preg-facts-list li::before { color: var(--sage); }
+  .facts-panel[data-panel="dad"] .preg-facts-list li::before { color: #7a7aba; }
 </style>
 </head>
 <body>
@@ -941,12 +973,27 @@
       </div>
     </div>
     <div class="hero-grid-right" id="heroRight">
-      <div class="preg-facts-wk-label" id="pregFactsWkLabel">Baby at week 4</div>
-      <div class="preg-facts-size">
-        <span class="preg-facts-emoji" id="pregFactsEmoji">🍋</span>
-        <span class="preg-facts-size-text" id="pregFactsSizeText">About the size of a lemon</span>
+      <div class="facts-tabs">
+        <button class="facts-tab active" data-tab="baby">Baby</button>
+        <button class="facts-tab" data-tab="mom">Mom</button>
+        <button class="facts-tab" data-tab="dad">For Dad</button>
       </div>
-      <ul class="preg-facts-list" id="pregFactsList"></ul>
+      <div class="facts-panel active" data-panel="baby" id="panelBaby">
+        <div class="preg-facts-wk-label" id="pregFactsWkLabel">Baby at week 4</div>
+        <div class="preg-facts-size">
+          <span class="preg-facts-emoji" id="pregFactsEmoji">🍋</span>
+          <span class="preg-facts-size-text" id="pregFactsSizeText">About the size of a lemon</span>
+        </div>
+        <ul class="preg-facts-list" id="pregFactsList"></ul>
+      </div>
+      <div class="facts-panel" data-panel="mom" id="panelMom">
+        <div class="preg-facts-wk-label" id="pregFactsMomLabel">Mom at week 4</div>
+        <ul class="preg-facts-list" id="pregFactsMomList"></ul>
+      </div>
+      <div class="facts-panel" data-panel="dad" id="panelDad">
+        <div class="preg-facts-wk-label" id="pregFactsDadLabel">For Dad at week 4</div>
+        <ul class="preg-facts-list" id="pregFactsDadList"></ul>
+      </div>
     </div>
   </div>
 </div>
@@ -1602,6 +1649,94 @@
     40: { size: 'a small pumpkin',       emoji: '🎃', facts: ['You\'ve reached your due date — baby is ready to meet you!', 'The average newborn is 7–8 lbs and 19–21 inches long', 'It\'s completely normal to go 1–2 weeks past your due date'] },
   };
 
+  const momFacts = {
+     0: { facts: ['Your body is preparing for ovulation — estrogen is rising to trigger egg release', 'The uterine lining is rebuilding after your last period', 'Now is a great time to start prenatal vitamins if you haven\'t already'] },
+     1: { facts: ['Estrogen and luteinizing hormone (LH) surge to trigger ovulation around day 14', 'Cervical mucus becomes clear and stretchy — a natural signal of peak fertility', 'Your body temperature rises slightly right after ovulation'] },
+     2: { facts: ['Ovulation is occurring — the egg has been released and can be fertilized for 12–24 hours', 'Progesterone begins rising to prepare the uterine lining for implantation', 'You may notice a one-sided twinge called mittelschmerz (ovulation pain)'] },
+     3: { facts: ['A fertilized egg is traveling down the fallopian tube toward your uterus', 'hCG hormone begins rising — this is what pregnancy tests detect', 'Implantation may cause light spotting and mild cramps this week'] },
+     4: { facts: ['hCG is now high enough to turn a pregnancy test positive!', 'Breast tenderness and fatigue are often the very first signs you\'ll notice', 'Progesterone rises quickly, slowing digestion and causing early bloating'] },
+     5: { facts: ['hCG is doubling every 48–72 hours, driving intense early symptoms', 'Morning sickness can strike at any time of day — nausea peaks for many in weeks 6–9', 'Your blood volume is beginning to increase — fatigue can feel overwhelming'] },
+     6: { facts: ['Estrogen and progesterone are both surging, causing nausea, mood swings, and food aversions', 'Smell sensitivity often peaks this week — certain scents can trigger instant nausea', 'Frequent urination increases as your kidneys ramp up blood filtration'] },
+     7: { facts: ['Progesterone relaxes smooth muscle throughout the body, slowing your digestive tract', 'Constipation, bloating, and gas are common and completely normal', 'Mood swings are driven by rapidly fluctuating hormone levels — be gentle with yourself'] },
+     8: { facts: ['Your blood volume has started a 40–50% increase that will continue all pregnancy', 'Increased circulation can cause lightheadedness, visible veins, and a warm flushed feeling', 'The corpus luteum (the follicle that released your egg) is still producing progesterone'] },
+     9: { facts: ['Your uterus has grown to about the size of a grapefruit', 'Round ligament stretching may cause occasional sharp tugging sensations in your lower abdomen', 'Fatigue, nausea, and breast tenderness remain at their peak for most women this week'] },
+    10: { facts: ['Waistbands are getting tighter as your uterus expands out of the pelvis', 'Headaches are common as blood vessels expand and blood pressure adjusts', 'Skin changes may begin — some women notice early glow, others experience breakouts'] },
+    11: { facts: ['Thyroid hormones increase to support the baby\'s rapid growth, boosting your metabolism', 'Constipation often worsens as progesterone continues to slow digestion', 'You may notice your hair looking thicker — pregnancy hormones slow normal shedding'] },
+    12: { facts: ['Morning sickness begins to ease for many women as hCG levels stabilize', 'Energy slowly starts to return — the second trimester relief may be just around the corner', 'Your uterus is now large enough to be felt just above your pubic bone'] },
+    13: { facts: ['The placenta is taking over hormone production from the corpus luteum', 'Miscarriage risk drops significantly — many women feel safe sharing their news now', 'Your appetite may return as nausea fades; cravings can begin in earnest'] },
+    14: { facts: ['A visible bump may be emerging, especially if this isn\'t your first pregnancy', 'The linea nigra (a dark vertical line on the belly) may start to appear from hormonal pigment changes', 'You may feel more energized and emotionally stable as second trimester begins'] },
+    15: { facts: ['Round ligament pain is common as the uterus grows rapidly upward', 'Your appetite is increasing — your body needs about 300 extra calories daily now', 'Nasal congestion from increased blood flow is extremely common in pregnancy'] },
+    16: { facts: ['Back pain may begin as your center of gravity shifts and ligaments loosen', 'The hormone relaxin is softening your joints to prepare your body for birth', 'You may start feeling the first flutters of baby movement (quickening) this week'] },
+    17: { facts: ['Skin changes may include darkening areolas, a growing linea nigra, and possible melasma on the face', 'Stretch marks may begin to appear on the belly, hips, or breasts', 'Your heart is pumping about 20% more blood than before pregnancy'] },
+    18: { facts: ['First-time moms often feel kicks for the first time this week — it feels like flutters or bubbles', 'Dizziness is common when standing up quickly as blood pressure adjusts', 'Your uterus is about the size of a cantaloupe — right at your belly button level'] },
+    19: { facts: ['Your belly button may begin to protrude as the uterus pushes forward', 'Heartburn and acid reflux intensify as the growing uterus presses on your stomach', 'Leg cramps at night become more common — stay hydrated and stretch before bed'] },
+    20: { facts: ['Halfway there! Your uterus now reaches your belly button', 'Amniotic fluid is at near-maximum volume — it cushions and protects baby', 'Varicose veins may appear as blood volume and pressure in your veins increases'] },
+    21: { facts: ['Braxton Hicks contractions may begin — occasional, painless tightening that\'s completely normal', 'Shortness of breath can occur as your diaphragm gets compressed by the growing uterus', 'Your center of gravity is shifting — your gait and posture naturally adjust'] },
+    22: { facts: ['Skin stretching can cause itching on the belly — moisturizing regularly helps', 'Swollen ankles and feet (edema) may appear, especially by the end of the day', 'Progesterone-driven mood changes may continue; emotional support matters a lot now'] },
+    23: { facts: ['Edema (swelling) in feet and ankles is common and gets worse with heat and standing', 'Sleep is becoming more difficult — a pregnancy pillow can make a significant difference', 'Your belly is large enough now that finding a comfortable sleeping position takes creativity'] },
+    24: { facts: ['Glucose screening test is typically done this week to check for gestational diabetes', 'Your belly now measures roughly the size of a soccer ball', 'Blood pressure and swelling are being monitored — report any sudden changes to your provider'] },
+    25: { facts: ['Hemorrhoids can develop as increased blood flow puts pressure on rectal veins', 'Heartburn and indigestion may be at their worst now — small frequent meals help', 'Colostrum (the first milk) may begin leaking from your breasts as early as this week'] },
+    26: { facts: ['Colostrum leaking may increase — breast pads can help', 'Vision changes (blurring or dryness) are caused by fluid retention and hormonal shifts', 'Carpal tunnel syndrome can develop from fluid pressure on the wrists — wrist splints help'] },
+    27: { facts: ['Fatigue often returns in the third trimester as the physical demands increase significantly', 'Shortness of breath becomes more noticeable as baby presses up toward your diaphragm', 'Back pain, pelvic pressure, and frequent urination all intensify from here'] },
+    28: { facts: ['Welcome to the third trimester! The relaxin hormone is loosening pelvic joints in preparation for birth', 'Pelvic girdle pain (SPD) can begin — your hips and pubic joint feel loose and achy', 'Your sleep is disrupted by baby movement, bathroom trips, and general discomfort'] },
+    29: { facts: ['Rib pain becomes common as baby\'s positioning pushes up against your lower ribs', 'Urinary frequency is nearly constant as the baby presses on your bladder again', 'Braxton Hicks contractions become more frequent and may occasionally feel stronger'] },
+    30: { facts: ['Fatigue is intensifying — your body is working incredibly hard to support a rapidly growing baby', 'Carpal tunnel symptoms may worsen as fluid retention increases', 'Heartburn, backache, and breathlessness are all at a high this trimester'] },
+    31: { facts: ['Braxton Hicks are more frequent and noticeable — they should remain irregular and painless', 'Colostrum leaking may increase as your breasts prepare for milk production', 'Stretch marks may deepen in color as skin continues to stretch rapidly'] },
+    32: { facts: ['Most babies have moved into a head-down position by now — you\'ll feel kicks up high', 'Pelvic pressure and heaviness increase as baby settles lower', 'Difficulty sleeping is nearly universal at this stage — rest whenever you can'] },
+    33: { facts: ['Pelvic girdle pain often peaks this week as baby\'s weight increases', 'Milk production (colostrum) is ramping up inside your breasts', 'Antibodies are passing across the placenta to build baby\'s immune system before birth'] },
+    34: { facts: ['The nesting instinct may kick in — a burst of energy and urge to prepare your home', 'Cervix is beginning to soften and thin (efface) in preparation for labor', 'Shortness of breath may actually ease slightly if baby starts to drop into the pelvis'] },
+    35: { facts: ['Lightening (baby dropping into the pelvis) makes breathing easier but adds pelvic pressure', 'Cervix may be dilating slightly even without labor contractions', 'You may lose the mucus plug this week — a sign your cervix is changing'] },
+    36: { facts: ['The mucus plug may be partially or fully expelled as the cervix continues to dilate', 'Group B strep (GBS) swab is typically done at this appointment', 'Braxton Hicks contractions intensify and may be harder to distinguish from early labor'] },
+    37: { facts: ['Your body is at full term — the cervix is ripening and effacing', 'Nesting instinct is often at its peak; the urge to prepare feels urgent and strong', 'False labor (Braxton Hicks that feel like real contractions) becomes more common'] },
+    38: { facts: ['Cervical dilation continues — your provider may check progress at appointments', 'The mucus plug may fully expel, sometimes with a bloody show', 'Sleep is extremely difficult; napping and resting is important to build energy reserves'] },
+    39: { facts: ['Your body could go into labor any day — watch for bloody show, water breaking, or regular contractions', 'The cervix is ripening in preparation for labor — progesterone drops to allow oxytocin to take over', 'Emotional waves of excitement, anxiety, and readiness are all completely normal'] },
+    40: { facts: ['Oxytocin is building — the hormone that triggers and sustains labor contractions', 'Your cervix is fully ripe and ready — the final hormonal cascade can begin at any moment', 'It is completely normal to go 1–2 weeks past your due date; your provider is monitoring closely'] },
+  };
+
+  const dadFacts = {
+     0: { facts: ['Schedule your own preconception checkup and get up to date on any vaccines', 'Start taking a daily multivitamin — sperm quality benefits from zinc, folate, and vitamin C', 'Cut back on alcohol and smoking now; sperm health reflects the last 3 months of habits'] },
+     1: { facts: ['Track the cycle together if you\'re trying to conceive — she shouldn\'t carry this alone', 'Create a relaxed home environment; stress negatively affects fertility for both partners', 'Eat well and exercise — your overall health contributes directly to sperm quality'] },
+     2: { facts: ['Be present and engaged without putting pressure on "the task" — intimacy should feel natural', 'Handle household chores proactively so she can rest if needed during the two-week wait', 'Keep her calm and positive — anxiety during the two-week wait is intense for many women'] },
+     3: { facts: ['Be ready to take a pregnancy test together — she may want your support in that moment', 'If she has implantation spotting, offer calm reassurance that it\'s often normal', 'Prepare emotionally for either outcome — be her soft landing place no matter what'] },
+     4: { facts: ['Go to the pharmacy together and take the pregnancy test as a team', 'Call her OB or midwife to schedule the first prenatal appointment', 'Start limiting alcohol yourself — it\'s a meaningful show of solidarity'] },
+     5: { facts: ['Take over any household chores involving strong smells — trash, cooking meat, cleaning products', 'Stock the house with ginger tea, saltine crackers, and bland foods for nausea', 'Understand that her exhaustion this week is real and profound — cover what you can'] },
+     6: { facts: ['Be patient with mood swings — they\'re hormonally driven, not personal', 'Offer to take over cooking entirely if food smells are triggering nausea for her', 'Go to prenatal appointments with her — your presence matters more than you realize'] },
+     7: { facts: ['Keep crackers and bland snacks in the car, bedroom, and office for her easy access', 'Do grocery runs so she doesn\'t have to navigate triggering smells in the store', 'Offer gentle encouragement — first trimester is exhausting and often invisible to the outside world'] },
+     8: { facts: ['Research and shortlist OB practices or midwives if she hasn\'t chosen one yet', 'Attend the first prenatal visit — hearing the heartbeat for the first time is unforgettable', 'Learn what to expect at each prenatal appointment so you can be an informed partner'] },
+     9: { facts: ['Read one pregnancy book together or follow along week-by-week with an app', 'Offer foot rubs and back massages — her body is changing and physical touch is grounding', 'Ask her how she\'s feeling emotionally, not just physically — first trimester is also mentally hard'] },
+    10: { facts: ['Listen without trying to fix — she needs to feel heard more than she needs solutions right now', 'Validate how difficult the first trimester can be — it\'s often harder than people expect', 'Research your employer\'s parental leave policy and start thinking about finances'] },
+    11: { facts: ['Review your parental leave policy and start saving if you haven\'t started', 'Think about whether you need a larger car, more space, or other practical life changes', 'Continue being her primary support through nausea, fatigue, and emotional uncertainty'] },
+    12: { facts: ['Celebrate the 12-week milestone together — the hardest part of early pregnancy is often over', 'Share the news with family and friends together if she\'s ready and wants to', 'Plan a small celebration — a nice dinner or meaningful gesture goes a long way'] },
+    13: { facts: ['Plan a special date night or a weekend getaway — travel is most comfortable in the second trimester', 'Start researching childbirth and parenting classes offered in your area', 'Continue learning about what\'s happening week by week so you can connect with her experience'] },
+    14: { facts: ['Take the first official bump photo together — document this journey from the start', 'Notice and compliment her changing body with warmth and affirmation', 'Start thinking about the nursery — does anything need to be reorganized or purchased?'] },
+    15: { facts: ['Register for a childbirth education class — the good ones fill up months in advance', 'Take on all heavy lifting and physically demanding tasks without being asked', 'Keep up with prenatal appointments — every one is an opportunity to show up for her'] },
+    16: { facts: ['Place your hand on her belly in the evenings — she may start feeling kicks you\'ll both want to share', 'Read a pregnancy or parenting book so you feel prepared and knowledgeable', 'If she wants to, start discussing the baby\'s name together in earnest'] },
+    17: { facts: ['Research car seat options — safety ratings, installation ease, and compatibility with your car', 'Help her find a pregnancy pillow to improve her sleep comfort', 'Acknowledge when she\'s struggling and offer concrete help rather than just sympathy'] },
+    18: { facts: ['The anatomy scan is one of the biggest appointments of pregnancy — clear your calendar and be there', 'Ask questions during the ultrasound — the technician can walk you through what you\'re seeing', 'This is often when you can find out the sex if you want to — talk about your preferences beforehand'] },
+    19: { facts: ['Research hospitals and birth centers together — location, policies, and NICU capabilities matter', 'Start discussing birth preferences: pain management, who\'s in the room, delayed cord clamping', 'Build the nursery plan — paint colors, furniture, storage — even small progress feels good'] },
+    20: { facts: ['Celebrate the halfway point! Plan something meaningful to mark this milestone', 'Consider a babymoon — a last trip as just the two of you before the baby arrives', 'Research postpartum support options: meal trains, doulas, family help plans'] },
+    21: { facts: ['Practice giving back massages — she will use them a lot in the coming weeks', 'Set up a white noise machine or fan to help her sleep through discomfort', 'Talk about how you\'ll divide responsibilities once baby arrives — don\'t wait until after birth'] },
+    22: { facts: ['Assemble nursery furniture if it has arrived — and get ahead of anything still on order', 'Make sure the car seat is on your radar — research installation and safety ratings', 'Ask her what she needs most right now; don\'t assume — check in directly'] },
+    23: { facts: ['Have a real conversation about birth plan preferences — pain management, interventions, who\'s present', 'Help her set up a more comfortable sleep arrangement with extra pillows and support', 'Research paternity leave logistics at work and begin the paperwork process'] },
+    24: { facts: ['Attend the glucose screening appointment with her if possible — the results affect both of you', 'Make it a habit to attend every prenatal appointment — your presence is irreplaceable', 'Take a CPR and infant first aid class together this trimester'] },
+    25: { facts: ['Stock the house with healthy snacks and meals — she needs extra calories and nutrients', 'Be a sounding board for any fears she has about labor, parenting, or her changing body', 'Finalize your hospital bag list so you can start packing it in the coming weeks'] },
+    26: { facts: ['Take an infant CPR and first aid class together — most hospitals offer them', 'Confirm the pediatrician choice and book a meet-the-doctor appointment before the due date', 'Install the car seat and get it inspected at a local fire station or certified check station'] },
+    27: { facts: ['Practice the route to the hospital or birth center at different times of day', 'Finalize your hospital bag list and begin gathering everything you\'ll need', 'Talk to her about how she wants to be supported during labor — ask, don\'t assume'] },
+    28: { facts: ['Pack the hospital bag together this week — don\'t wait until the last minute', 'Install the car seat and have it officially inspected by a certified technician', 'Learn the difference between Braxton Hicks and real labor contractions'] },
+    29: { facts: ['Take on all household physical tasks proactively — she shouldn\'t be lifting or overexerting', 'Learn the warning signs of preterm labor so you know when to call the provider', 'Help her set up a cozy, comfortable resting spot at home with pillows and easy access to water and snacks'] },
+    30: { facts: ['Help set up a pregnancy pillow arrangement that allows her to sleep comfortably on her side', 'Write a list of who to call and text the moment labor begins', 'Review your birth plan together and practice any comfort techniques you\'ve discussed'] },
+    31: { facts: ['Walk through the birth plan one more time together so it\'s fresh for both of you', 'Confirm the pediatrician is fully set up and ready to see baby after birth', 'Make sure your emergency contact list is updated and accessible on both of your phones'] },
+    32: { facts: ['Learn the difference between real labor contractions and Braxton Hicks — timing and regularity are the key', 'Make sure work coverage is arranged and your out-of-office is ready to go at a moment\'s notice', 'Keep the gas tank full and a charged phone with you at all times from here forward'] },
+    33: { facts: ['Finalize work handoff plans so you can leave without scrambling when labor starts', 'Do a final nursery check — make sure everything is assembled, washed, and in place', 'Ask her what she\'s most nervous about and sit with her in that — don\'t rush to reassure'] },
+    34: { facts: ['Pre-register at the hospital online so admission is faster when the day comes', 'Make sure your on-call phone is always charged and nearby', 'Freeze or prep meals for the postpartum period — future you will be incredibly grateful'] },
+    35: { facts: ['Be extra attentive and available — labor can begin any time from this week forward', 'Confirm that the car seat is correctly installed and hospital bags are by the door', 'Check in emotionally with her daily — the final weeks are both exciting and deeply overwhelming'] },
+    36: { facts: ['Stay close to home and make sure your phone is always charged and within reach', 'Know exactly what to do when labor starts: who to call, what to time, when to head in', 'Stock the freezer with easy meals and make sure the house is ready to welcome a newborn'] },
+    37: { facts: ['Do final nursery and home prep — create a clean, calm, welcoming space for baby\'s arrival', 'Stock the freezer with at least 2 weeks of easy, reheatable meals', 'Spend quality time together — these are your final weeks as a couple before everything changes'] },
+    38: { facts: ['Stay close to home and be reachable at all times — do not make any non-essential trips away', 'Keep your phone fully charged overnight and beside you while you sleep', 'Offer daily comfort: back rubs, encouragement, distraction — she is ready and exhausted'] },
+    39: { facts: ['Time any contractions she has — use an app and look for regularity (every 5 min, 1 min long, for 1 hour)', 'Review the hospital bag one last time and confirm everything is by the door', 'Your presence, calm, and reassurance are the most important things you can offer right now'] },
+    40: { facts: ['Offer constant, unwavering support — reassure her that she\'s ready and that you\'re right there with her', 'If labor hasn\'t started, a gentle walk together can help and gives you both something to do', 'Be her calm in the storm — your steadiness in this moment will mean everything to her'] },
+  };
+
   function updatePregTracker() {
     const lmpStr = loadLMP();
     const noDate = document.getElementById('pregNoDate');
@@ -1655,6 +1790,16 @@
       document.getElementById('pregFactsEmoji').textContent    = wd.emoji;
       document.getElementById('pregFactsSizeText').textContent = `About the size of ${wd.size}`;
       document.getElementById('pregFactsList').innerHTML       = wd.facts.map(f => `<li>${f}</li>`).join('');
+    }
+    const md = momFacts[displayWeek];
+    if (md) {
+      document.getElementById('pregFactsMomLabel').textContent = `Mom at week ${displayWeek}`;
+      document.getElementById('pregFactsMomList').innerHTML    = md.facts.map(f => `<li>${f}</li>`).join('');
+    }
+    const dd = dadFacts[displayWeek];
+    if (dd) {
+      document.getElementById('pregFactsDadLabel').textContent = `For Dad at week ${displayWeek}`;
+      document.getElementById('pregFactsDadList').innerHTML    = dd.facts.map(f => `<li>${f}</li>`).join('');
     }
 
     const currentPhase = week <= 12 ? 't1' : week <= 26 ? 't2' : week <= 39 ? 't3' : 'birth';
@@ -2000,6 +2145,14 @@
 
   document.getElementById('pregStartBtn').addEventListener('click', openModal);
   document.getElementById('pregEdit').addEventListener('click', openModal);
+
+  document.querySelectorAll('.facts-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.facts-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === target));
+      document.querySelectorAll('.facts-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === target));
+    });
+  });
 
   // ── Filters ───────────────────────────────────────────────────
   const FILTERS = [
