@@ -933,6 +933,46 @@
   }
   .facts-panel[data-panel="mom"] .preg-facts-list li::before { color: var(--sage); }
   .facts-panel[data-panel="dad"] .preg-facts-list li::before { color: #7a7aba; }
+
+  /* Taylor's Version */
+  .tv-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--soft);
+    background: none;
+    border: 1px solid var(--gold-light);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tv-btn:hover { color: #6b3d88; border-color: #b89fd4; }
+  .tv-btn.active {
+    color: #6b3d88;
+    border-color: #b89fd4;
+    background: rgba(107,61,136,0.08);
+    font-weight: 500;
+  }
+  .tv-egg { display: none; }
+  body.taylors-version .tv-egg { display: block; }
+  .tv-lyric {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 11.5px;
+    color: #6b3d88;
+    margin: -10px 0 14px;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+  .tv-phase-note {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 12.5px;
+    color: #6b3d88;
+    margin-top: 10px;
+    line-height: 1.5;
+    opacity: 0.88;
+  }
 </style>
 </head>
 <body>
@@ -958,6 +998,19 @@
       <div id="pregInfo" style="display:none;margin-top:16px">
         <div><span class="preg-wk" id="pregWk">4 weeks</span><span class="preg-dy" id="pregDy">, 3 days</span></div>
         <div class="preg-due-line" id="pregDueLine"></div>
+        <div class="tv-lyric" id="tvNewYears" style="display:none">♪ "I'll be cleaning up bottles with you, on New Year's Day"</div>
+        <div class="tv-lyric" id="tvAugust" style="display:none">♪ "August slipped away into a moment in time"</div>
+        <div class="tv-lyric" id="tvChristmas" style="display:none">♪ "In my heart is a Christmas tree farm"</div>
+        <div class="tv-lyric" id="tvJanuary" style="display:none">♪ "We could leave the Christmas lights up 'til January"</div>
+        <div class="tv-lyric" id="tvFebruary" style="display:none">♪ "A red rose grew up out of ice frozen ground"</div>
+        <div class="tv-lyric" id="tvMarch" style="display:none">♪ "And I can see daylight"</div>
+        <div class="tv-lyric" id="tvApril" style="display:none">♪ "Clover blooms in the fields, spring breaks loose, the time is near"</div>
+        <div class="tv-lyric" id="tvMay" style="display:none">♪ "You were looking at me" — Out of the Woods</div>
+        <div class="tv-lyric" id="tvJuly" style="display:none">♪ "Sweet tea in the summer, cross my heart, won't tell no other"</div>
+        <div class="tv-lyric" id="tvSeptember" style="display:none">♪ "Time turns flames to embers, you'll have new Septembers"</div>
+        <div class="tv-lyric" id="tvOctober" style="display:none">♪ "Autumn leaves falling down like pieces into place"</div>
+        <div class="tv-lyric" id="tvNovember" style="display:none">♪ "I recall late November, holding my breath"</div>
+        <div class="tv-lyric" id="tvDecemberEarly" style="display:none">♪ "I go back to December all the time"</div>
         <div class="preg-bar-bg">
           <div class="preg-bar-fill" id="pregFill" style="width:0%"></div>
           <div class="preg-dot" id="pregDot" style="display:none"></div>
@@ -1021,6 +1074,7 @@
       <div class="phase-tag">Weeks 1 – 13</div>
       <h2 class="phase-title">First Trimester</h2>
       <p class="phase-desc">The foundational weeks — full of wonder, maybe some nausea, and a lot of important early decisions. Take it one step at a time.</p>
+      <p class="tv-egg tv-phase-note">♪ "Long live all the mountains we moved, I had the time of my life fighting dragons with you." — <em>Long Live</em></p>
       <div class="phase-progress">
         <span id="t1-done">0</span>/<span id="t1-total">0</span>
         <div class="phase-progress-bar"><div class="phase-progress-fill" id="t1-bar" style="width:0%"></div></div>
@@ -1075,6 +1129,7 @@
       <div class="phase-tag">Weeks 14 – 27</div>
       <h2 class="phase-title">Second Trimester</h2>
       <p class="phase-desc">Often called the "golden trimester" — energy returns, the bump grows, and you'll start feeling those first kicks. There's a lot to prepare and savor.</p>
+      <p class="tv-egg tv-phase-note">♪ "You are the best thing that's ever been mine." — <em>Mine</em></p>
       <div class="phase-progress">
         <span id="t2-done">0</span>/<span id="t2-total">0</span>
         <div class="phase-progress-bar"><div class="phase-progress-fill" id="t2-bar" style="width:0%"></div></div>
@@ -1130,6 +1185,7 @@
       <div class="phase-tag">Weeks 28 – 40</div>
       <h2 class="phase-title">Third Trimester</h2>
       <p class="phase-desc">The home stretch. Things get real — and wonderful and uncomfortable all at once. Get your nest ready and trust the process.</p>
+      <p class="tv-egg tv-phase-note">♪ "This is me trying." — <em>This Is Me Trying</em></p>
       <div class="phase-progress">
         <span id="t3-done">0</span>/<span id="t3-total">0</span>
         <div class="phase-progress-bar"><div class="phase-progress-fill" id="t3-bar" style="width:0%"></div></div>
@@ -1186,6 +1242,7 @@
       <div class="phase-tag">Before & During Birth</div>
       <h2 class="phase-title">Birth Preparation</h2>
       <p class="phase-desc">Know your preferences, communicate them clearly, and remember: flexibility is part of the plan. Whatever happens, you've got this.</p>
+      <p class="tv-egg tv-phase-note">♪ "Are you... ready for it?" — <em>...Ready For It?</em></p>
       <div class="phase-progress">
         <span id="birth-done">0</span>/<span id="birth-total">0</span>
         <div class="phase-progress-bar"><div class="phase-progress-fill" id="birth-bar" style="width:0%"></div></div>
@@ -1236,6 +1293,7 @@
       <div class="phase-tag">After Baby Arrives</div>
       <h2 class="phase-title">Postpartum</h2>
       <p class="phase-desc">The fourth trimester is real. Take care of yourselves, accept help, and know that the fog eventually lifts. You're doing better than you think.</p>
+      <p class="tv-egg tv-phase-note">♪ "Long story short, I survived." — <em>Long Story Short</em></p>
       <div class="phase-progress">
         <span id="postpartum-done">0</span>/<span id="postpartum-total">0</span>
         <div class="phase-progress-bar"><div class="phase-progress-fill" id="postpartum-bar" style="width:0%"></div></div>
@@ -1277,6 +1335,7 @@
   <div class="reset-wrap">
     <button class="reset-btn" id="resetBtn">↺ Reset all checkmarks</button>
     <button class="settings-btn" id="settingsBtn">⚙ Sync settings</button>
+    <button class="tv-btn" id="tvBtn">✨ Taylor's Version</button>
   </div>
 </div><!-- end .content -->
 </div><!-- end .page-layout -->
@@ -1808,6 +1867,7 @@
     );
 
     updateWeekGroupTags();
+    updateTVEggs();
   }
 
   function updateWeekGroupTags() {
@@ -2237,11 +2297,60 @@
     overlay.addEventListener('click', closeDrawer);
   }
 
+  // ── Taylor's Version ──────────────────────────────────────────
+  const LS_TV = 'pregnancy-taylors-version';
+  function loadTV() { return localStorage.getItem(LS_TV) === '1'; }
+  function saveTV(on) { if (on) localStorage.setItem(LS_TV, '1'); else localStorage.removeItem(LS_TV); }
+
+  function updateTVEggs() {
+    const on = loadTV();
+    const lmpStr = loadLMP();
+    const due = lmpStr ? (() => { const d = new Date(lmpStr + 'T00:00:00'); d.setDate(d.getDate() + 280); return d; })() : null;
+
+    const eggs = [
+      { id: 'tvNewYears', match: d => d.getMonth() === 0 && d.getDate() <= 7 },
+      { id: 'tvAugust',   match: d => d.getMonth() === 7 },
+      { id: 'tvChristmas', match: d => d.getMonth() === 11 && d.getDate() >= 20 },
+      { id: 'tvJanuary',      match: d => d.getMonth() === 0 && d.getDate() >= 8 },
+      { id: 'tvFebruary',     match: d => d.getMonth() === 1 },
+      { id: 'tvMarch',        match: d => d.getMonth() === 2 },
+      { id: 'tvApril',        match: d => d.getMonth() === 3 },
+      { id: 'tvMay',          match: d => d.getMonth() === 4 },
+      { id: 'tvJuly',         match: d => d.getMonth() === 6 },
+      { id: 'tvSeptember',    match: d => d.getMonth() === 8 },
+      { id: 'tvOctober',      match: d => d.getMonth() === 9 },
+      { id: 'tvNovember',     match: d => d.getMonth() === 10 },
+      { id: 'tvDecemberEarly', match: d => d.getMonth() === 11 && d.getDate() < 20 },
+    ];
+
+    eggs.forEach(({ id, match }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.style.display = (on && due && match(due)) ? '' : 'none';
+    });
+  }
+
+  function applyTV() {
+    const on = loadTV();
+    document.body.classList.toggle('taylors-version', on);
+    const btn = document.getElementById('tvBtn');
+    if (btn) btn.classList.toggle('active', on);
+    const eyebrow = document.querySelector('.hero-eyebrow');
+    if (eyebrow) eyebrow.textContent = on ? "Our pregnancy journey (Taylor's Version)" : 'Our pregnancy journey';
+    updateTVEggs();
+  }
+
+  document.getElementById('tvBtn').addEventListener('click', () => {
+    saveTV(!loadTV());
+    applyTV();
+  });
+
   // ── Bootstrap ─────────────────────────────────────────────────
   initItems();
   applyState();
   updateHeroName();
   updatePregTracker();
+  applyTV();
   renderAllCustomItems();
   initAddItemButtons();
   initFilters();
